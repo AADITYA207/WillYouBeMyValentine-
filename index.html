@@ -19,6 +19,63 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated background elements */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 40px;
+            opacity: 0.3;
+            animation: floatUpRotate 15s infinite ease-in-out;
+        }
+
+        @keyframes floatUpRotate {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkleAnim 3s infinite ease-in-out;
+            box-shadow: 0 0 10px white;
+        }
+
+        @keyframes sparkleAnim {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.5);
+            }
         }
 
         .screen {
@@ -30,6 +87,30 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.2);
             max-width: 500px;
             width: 90%;
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        .screen::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.3) 50%,
+                transparent 70%
+            );
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
 
         .screen.active {
@@ -46,6 +127,17 @@
             color: #e91e63;
             font-size: 2.5em;
             margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(233, 30, 99, 0.3);
+            animation: titleGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% {
+                text-shadow: 2px 2px 4px rgba(233, 30, 99, 0.3);
+            }
+            50% {
+                text-shadow: 2px 2px 20px rgba(233, 30, 99, 0.6);
+            }
         }
 
         p {
@@ -55,44 +147,36 @@
             line-height: 1.6;
         }
 
-    .button-container {
-        position: relative;
-        min-height: 120px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        /* gap: 20px; */
-    }
+        .button-container {
+            position: relative;
+            min-height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-    button {
-        /* padding: 12px 24px; */
-        font-size: 1rem;
-        border: none;
-        border-radius: 50px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-weight: bold;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-
-        /* Text fitting */
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-
-        /* Flexible sizing */
-        min-width: 130px;
-        max-width: 200px;
-        height: 60px;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+        button {
+            font-size: 1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-width: 130px;
+            max-width: 200px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
         .yes-btn {
             background: linear-gradient(135deg, #e91e63 0%, #f06292 100%);
             color: white;
-            /* position: relative; */
         }
 
         .yes-btn:hover {
@@ -110,12 +194,104 @@
         .emoji {
             font-size: 4em;
             margin-bottom: 20px;
-            animation: float 3s ease-in-out infinite;
+            animation: float 3s ease-in-out infinite, pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-20px); }
+        }
+
+        /* Photo Memory Background for Screen 2 */
+        .photo-memories {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 50;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in;
+        }
+
+        .photo-memories.active {
+            opacity: 1;
+        }
+
+        .memory-photo {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: white;
+            padding: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border-radius: 10px;
+            animation: polaroidFloat 4s ease-in-out infinite;
+        }
+
+        .memory-photo img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .memory-photo::after {
+            content: '💕';
+            position: absolute;
+            bottom: -15px;
+            right: -15px;
+            font-size: 30px;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        /* Position each photo differently */
+        .memory-photo:nth-child(1) {
+            top: 10%;
+            left: 5%;
+            transform: rotate(-8deg);
+            animation-delay: 0s;
+        }
+
+        .memory-photo:nth-child(2) {
+            top: 15%;
+            right: 8%;
+            transform: rotate(5deg);
+            animation-delay: 0.5s;
+        }
+
+        .memory-photo:nth-child(3) {
+            bottom: 15%;
+            left: 8%;
+            transform: rotate(3deg);
+            animation-delay: 1s;
+        }
+
+        .memory-photo:nth-child(4) {
+            bottom: 10%;
+            right: 5%;
+            transform: rotate(-6deg);
+            animation-delay: 1.5s;
+        }
+
+        @keyframes polaroidFloat {
+            0%, 100% { 
+                transform: translateY(0px) rotate(var(--rotation)); 
+            }
+            50% { 
+                transform: translateY(-15px) rotate(calc(var(--rotation) + 2deg)); 
+            }
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
         }
 
         .hearts {
@@ -145,9 +321,40 @@
                 transform: translateY(100vh) rotate(360deg);
             }
         }
+
+        /* Make photos responsive */
+        @media (max-width: 768px) {
+            .memory-photo {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .memory-photo img {
+                height: 130px;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Background Animation -->
+    <div class="bg-animation" id="bgAnimation"></div>
+
+    <!-- Photo Memories Background -->
+    <div class="photo-memories" id="photoMemories">
+        <div class="memory-photo" style="--rotation: -8deg;">
+            <img src="photo1.jpeg" alt="Memory 1">
+        </div>
+        <div class="memory-photo" style="--rotation: 5deg;">
+            <img src="photo2.jpeg" alt="Memory 2">
+        </div>
+        <div class="memory-photo" style="--rotation: 3deg;">
+            <img src="photo3.jpeg" alt="Memory 3">
+        </div>
+        <div class="memory-photo" style="--rotation: -6deg;">
+            <img src="photo4.jpeg" alt="Memory 4">
+        </div>
+    </div>
+
     <!-- Screen 1: The Question -->
     <div class="screen active" id="screen1">
         <div class="emoji">💝</div>
@@ -156,7 +363,7 @@
             to answer it.
         </p>
         <p>Will you be so very kind to be my <b>sweetest, prettiest, most gorgeous</b> VALENTINE?</p>
-        <p>p.s. please dont say no T_T</p>
+        <p>p.s. I DARE YOU TO SAY NO🔫</p>
         <div class="button-container">
             <button class="no-btn" id="noBtn">No 😢</button>
             <button class="yes-btn" onclick="goToScreen2()">Yes ofcourse my baby</button>
@@ -171,8 +378,6 @@
         <div class="button-container">
             <button class="yes-btn" onclick="goToScreen3()">Happy Rose Day</button>
         </div>
-       
-
     </div>
 
     <!-- Screen 3: Final Message -->
@@ -191,20 +396,56 @@
     <div class="hearts" id="hearts"></div>
 
     <script>
+        // Create background animation
+        function createBackgroundAnimation() {
+            const bgAnimation = document.getElementById('bgAnimation');
+            
+            // Create floating hearts
+            const heartEmojis = ['❤️', '💕', '💖', '💗', '💝', '💘'];
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'floating-heart';
+                    heart.innerHTML = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.animationDelay = Math.random() * 5 + 's';
+                    heart.style.animationDuration = (10 + Math.random() * 10) + 's';
+                    bgAnimation.appendChild(heart);
+                }, i * 200);
+            }
+            
+            // Create sparkles
+            for (let i = 0; i < 30; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 3 + 's';
+                sparkle.style.animationDuration = (2 + Math.random() * 2) + 's';
+                bgAnimation.appendChild(sparkle);
+            }
+        }
+        
+        createBackgroundAnimation();
+
         const noBtn = document.getElementById('noBtn');
         const buttonContainer = document.querySelector('.button-container');
         let moveCount = 0;
         const yesBtn = document.querySelector('.yes-btn');
+        
         // Set initial position of No button to be next to Yes button
         window.addEventListener('DOMContentLoaded', () => {
             const containerRect = buttonContainer.getBoundingClientRect();
             const yesBtn = document.querySelector('.yes-btn');
             const yesBtnRect = yesBtn.getBoundingClientRect();
+            const music = document.getElementById("bgMusic");
+            yesBtn.addEventListener("click", function () {
+                if (music.paused) {
+                    music.play();
+                }
+            });
             
-            // Position No button 20px to the right of Yes button
             noBtn.style.top = ((yesBtnRect.top - containerRect.bottom)+180 ) + 'px';
-            // noBtn.style.top = '50%';
-            // noBtn.style.transform = 'translateY(-50%)';
         });
 
         // Make the "No" button run away from cursor
@@ -221,13 +462,11 @@
                     Math.pow(e.clientY - btnCenterY, 2)
                 );
                 
-                // If cursor is within 100px of button, move it
                 if (distance < 100) {
                     moveCount++;
                     
-                    // Calculate new position relative to container
-                    const maxX = containerRect.width - 150; // button width
-                    const maxY = 100; // vertical range
+                    const maxX = containerRect.width - 150;
+                    const maxY = 100;
                     
                     let newX = Math.random() * maxX;
                     let newY = (Math.random() - 0.5) * maxY;
@@ -235,13 +474,10 @@
                     noBtn.style.left = newX + 'px';
                     noBtn.style.top = newY + 'px';
                     
-                    // After 5 moves, make it even harder by shrinking the button
                     if (moveCount > 5) {
                         noBtn.style.transform = `scale(${Math.max(0.1, 1 - (moveCount - 5) * 0.08)})`;
                         yesBtn.style.transform = `scale(${Math.max(1, 0.2+(moveCount - 5) * 0.1)})`;
                     }
-                    
-                    // After 10 moves, just take them to screen 2 anyway!
                 }
             }
         });
@@ -263,12 +499,20 @@
         function goToScreen2() {
             document.getElementById('screen1').classList.remove('active');
             document.getElementById('screen2').classList.add('active');
+            
+            // Show photo memories
+            document.getElementById('photoMemories').classList.add('active');
+            
             createHearts();
         }
 
         function goToScreen3() {
             document.getElementById('screen2').classList.remove('active');
             document.getElementById('screen3').classList.add('active');
+            
+            // Hide photo memories
+            document.getElementById('photoMemories').classList.remove('active');
+            
             createRoses();
         }
 
@@ -286,8 +530,8 @@
                     setTimeout(() => heart.remove(), 4000);
                 }, i * 100);
             }
-            
         }
+        
         function createRoses() {
             const heartsContainer = document.getElementById('hearts');
             for (let i = 0; i < 100; i++) {
@@ -302,15 +546,7 @@
                     setTimeout(() => heart.remove(), 4000);
                 }, i * 100);
             }
-            
         }
-        document.addEventListener("click", function () {
-        const music = document.getElementById("bgMusic");
-
-        if (music.paused) {
-            music.play();
-        }
-    }, { once: true });
     </script>
 </body>
 </html>
