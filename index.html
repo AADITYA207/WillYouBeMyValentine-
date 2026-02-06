@@ -123,6 +123,47 @@
             to { opacity: 1; transform: scale(1); }
         }
 
+        /* Side GIFs for Screen 1 */
+        .side-gifs {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .side-gifs.left {
+            left: 5%;
+        }
+
+        .side-gifs.right {
+            right: 5%;
+        }
+
+        .side-gifs img {
+            width: 200px;
+            height: 200px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: floatSideways 3s ease-in-out infinite;
+        }
+
+        @keyframes floatSideways {
+            0%, 100% { 
+                transform: translateY(0px) scale(1); 
+            }
+            50% { 
+                transform: translateY(-15px) scale(1.05); 
+            }
+        }
+
+        /* Hide GIFs on mobile for better layout */
+        @media (max-width: 768px) {
+            .side-gifs {
+                display: none;
+            }
+        }
+
         h1 {
             color: #e91e63;
             font-size: 2.5em;
@@ -339,6 +380,14 @@
     <!-- Background Animation -->
     <div class="bg-animation" id="bgAnimation"></div>
 
+    <!-- Side GIFs for Screen 1 -->
+    <div class="side-gifs left" id="leftGif">
+        <img src="./left-gif.gif" alt="Love GIF">
+    </div>
+    <div class="side-gifs right" id="rightGif">
+        <img src="./right-gif.webp" alt="Heart GIF">
+    </div>
+
     <!-- Photo Memories Background -->
     <div class="photo-memories" id="photoMemories">
         <div class="memory-photo" style="--rotation: -8deg;">
@@ -362,7 +411,7 @@
         <p>I want to ask a very important question to you, so please please please take your time 
             to answer it.
         </p>
-        <p>Will you be so very kind to be my <b>sweetest, prettiest, most gorgeous</b> VALENTINE?</p>
+        <p><b>Will you be so very kind to be my sweetest, prettiest, most gorgeous VALENTINE?</b></p>
         <p>p.s. I DARE YOU TO SAY NO🔫</p>
         <div class="button-container">
             <button class="no-btn" id="noBtn">No 😢</button>
@@ -499,6 +548,10 @@
         function goToScreen2() {
             document.getElementById('screen1').classList.remove('active');
             document.getElementById('screen2').classList.add('active');
+            
+            // Hide side GIFs
+            document.getElementById('leftGif').style.display = 'none';
+            document.getElementById('rightGif').style.display = 'none';
             
             // Show photo memories
             document.getElementById('photoMemories').classList.add('active');
