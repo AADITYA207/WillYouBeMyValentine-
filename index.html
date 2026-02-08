@@ -87,9 +87,11 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.2);
             max-width: 500px;
             width: 90%;
+            max-height: 90vh;
             position: relative;
             z-index: 10;
-            overflow: hidden;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
         .screen::before {
@@ -171,7 +173,13 @@
             text-shadow: 2px 2px 4px rgba(233, 30, 99, 0.3);
             animation: titleGlow 2s ease-in-out infinite;
         }
-
+        h1_ {
+            color: #6b3d18;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(233, 30, 99, 0.3);
+            animation: titleGlow 2s ease-in-out infinite;
+        }
         @keyframes titleGlow {
             0%, 100% {
                 text-shadow: 2px 2px 4px rgba(233, 30, 99, 0.3);
@@ -374,6 +382,211 @@
                 height: 130px;
             }
         }
+
+        /* Custom scrollbar styling */
+        .screen::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .screen::-webkit-scrollbar-track {
+            background: rgba(233, 30, 99, 0.1);
+            border-radius: 10px;
+        }
+
+        .screen::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #e91e63 0%, #f06292 100%);
+            border-radius: 10px;
+        }
+
+        .screen::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #c2185b 0%, #e91e63 100%);
+        }
+
+        /* Envelope and Letter Styles */
+        .envelope-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            perspective: 1000px;
+        }
+
+        .envelope {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            margin-bottom: 30px;
+            animation: envelopeFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes envelopeFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .envelope-body {
+            position: absolute;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #f5e6d3 0%, #d7ccc8 100%);
+            border: 3px solid #8d6e63;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .envelope-body::before {
+            content: '💌';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 60px;
+            opacity: 0.3;
+        }
+
+        .envelope-flap {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 200px solid transparent;
+            border-right: 200px solid transparent;
+            border-top: 140px solid #8d6e63;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            transform-origin: top;
+            animation: flapOpen 2s ease-in-out forwards;
+            z-index: 2;
+        }
+
+        @keyframes flapOpen {
+            0% {
+                transform: translateX(-50%) rotateX(0deg);
+            }
+            100% {
+                transform: translateX(-50%) rotateX(-180deg);
+            }
+        }
+
+        .envelope-flap::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 194px solid transparent;
+            border-right: 194px solid transparent;
+            border-top: 134px solid #d7ccc8;
+            top: -134px;
+            left: -194px;
+        }
+
+        .letter {
+            background: linear-gradient(to bottom, #fff9f0 0%, #ffffff 100%);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            position: relative;
+            margin-top: 20px;
+            border: 2px solid #8d6e63;
+            animation: letterSlideUp 2s ease-out forwards;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        @keyframes letterSlideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            50% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .letter::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: repeating-linear-gradient(
+                90deg,
+                #e91e63,
+                #e91e63 10px,
+                #f06292 10px,
+                #f06292 20px
+            );
+        }
+
+        .letter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed #d7ccc8;
+        }
+
+        .stamp {
+            font-size: 40px;
+            background: white;
+            border: 3px dashed #8d6e63;
+            padding: 5px 10px;
+            border-radius: 5px;
+            animation: stampRotate 4s ease-in-out infinite;
+        }
+
+        @keyframes stampRotate {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        .date {
+            color: #8d6e63;
+            font-style: italic;
+            font-size: 0.9em;
+        }
+
+        .letter-content h2 {
+            color: #6b3d18;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            font-family: 'Brush Script MT', cursive;
+        }
+
+        .letter-content p {
+            color: #4a4a4a;
+            font-size: 1em;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .letter-signature {
+            margin-top: 30px;
+            text-align: right;
+        }
+
+        .letter-signature p {
+            color: #6b3d18;
+            margin-bottom: 5px;
+        }
+
+        /* Decorative hearts around letter */
+        .letter::after {
+            content: '💕';
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            font-size: 30px;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
     </style>
 </head>
 <body>
@@ -425,19 +638,43 @@
         <h1>Mujhe to pta hi tha tu mere peeche pagal hai!</h1>
         <p>I love you so much my doll. I really want to spend all my valentines with you.</p>
         <div class="button-container">
-            <button class="yes-btn" onclick="goToScreen3()">Happy Rose Day</button>
+            <button class="yes-btn" onclick="goToScreen3()">Happy Chocolate Day</button>
         </div>
     </div>
 
     <!-- Screen 3: Final Message -->
     <div class="screen" id="screen3">
-        <div class="emoji">🌹</div>
-        <h1>You are one day early princess </h1>
-        <p>Come back tomorrow for a surprise ♥️ </p>
+        <div class="envelope-container">
+            <div class="envelope">
+                <div class="envelope-flap"></div>
+                <div class="envelope-body"></div>
+            </div>
+            <div class="letter" id="letter">
+                <div class="letter-header">
+                    <div class="stamp">🍫</div>
+                    <div class="date">Chocolate Day 2026</div>
+                </div>
+                <div class="letter-content">
+                    <h2>To My Sweetest Princess,</h2>
+                    <p>Actually mein you like me because of my chocolaty color. I am thankful to all the chocolates for making you like me. I want to be your favorite chocolaty boy forever, but I know I can never beat Amul ki dark chocolate T_T</p>
+                    
+                    <p>For me, I would really appreciate any kind of chocolate off of you, I mean, by you. I can give up any sweet, any chocolate, if I have you in my life forever. You are the object of all my desires, and I can not imagine anything tastier, sweeter than you.</p>
+                    
+                    <p>I dont know how heaven tastes like, but I am damn sure it would be nothing compared to you. I dont know how the best chocolate smells, but it would lose all its fragrances in a room with you.</p>
+                    
+                    <p>I wish I could give you all the chocolates and all the sweets of the world, but for now, all I can say is I love you more than anything.</p>
+                    
+                    <div class="letter-signature">
+                        <p><strong>Happy Chocolate Day ❤️</strong></p>
+                        <p style="font-style: italic; margin-top: 10px;">Your Chocolate Boy</p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <audio id="bgMusic">
             <source src="./Perfect-(Mr-Jat.in).mp3" type="audio/mpeg">
         </audio>
-        <div class="button-container">
+        <div class="button-container" style="margin-top: 20px;">
             <button class="yes-btn" onclick="location.reload()">Want me to ask again?</button>
         </div>
     </div>
@@ -591,7 +828,7 @@
                 setTimeout(() => {
                     const heart = document.createElement('div');
                     heart.className = 'heart';
-                    heart.innerHTML = '🌹';
+                    heart.innerHTML = '🍫';
                     heart.style.left = Math.random() * 100 + '%';
                     heart.style.animationDelay = Math.random() * 2 + 's';
                     heartsContainer.appendChild(heart);
